@@ -22,6 +22,10 @@
 ## Revision history
 
 改訂履歴
+- 0.2.4 Loggerrを変更(bunyan → pino)、ArrayBufferを受け取るメソッドを追加( excelBuffer2json )、その他。
+  - linter、formatter、tsconfig あたりを整理。
+  - yarn から pnpm へ変更。
+  - もろもろconfigファイルたちを変更
 - 0.2.3 json2workbook メソッドに以下のパラメタを追加。元のヘッダ名で指定したロジックでソートしたり、ヘッダを変換できるようにした。
     - headerConverter?: (headings: string[]) => unknown[] // ヘッダを変換する関数
     - columnSortOrder?: (a: string, b: string) => number // 列をソートする関数
