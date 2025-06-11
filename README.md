@@ -1,5 +1,5 @@
 <p>
-  <a href="https://www.npmjs.com/package/" target="_blank">
+  <a href="https://www.npmjs.com/package/excel-csv-read-write" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/excel-csv-read-write.svg">
   </a>
   <a href="https://github.com/masatomix/excel-csv-read-write#readme" target="_blank">
@@ -22,7 +22,7 @@
 ## Revision history
 
 改訂履歴
-- 0.2.4 Loggerrを変更(bunyan → pino)、ArrayBufferを受け取るメソッドを追加( excelBuffer2json )、その他。
+- 0.2.4 Loggerを変更(bunyan → pino)、ArrayBufferを受け取るメソッドを追加( excelBuffer2json )、その他。
   - linter、formatter、tsconfig あたりを整理。
   - yarn から pnpm へ変更。
   - もろもろconfigファイルたちを変更
