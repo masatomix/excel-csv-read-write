@@ -1,13 +1,14 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import * as csv from 'csvtojson'
+import csv from 'csvtojson'
 import * as iconv from 'iconv-lite'
 import * as JSZip from 'jszip'
-import * as XlsxPopulate from 'xlsx-populate'
+import XlsxPopulate from 'xlsx-populate';
 import { Converters, CSVData } from './data'
 import { getLogger } from './logger'
 // const XlsxPopulate = require('xlsx-populate')
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const logger = getLogger('main')
 
 type Option = {
@@ -168,6 +169,35 @@ export const data2json = (
   }
 
   return instances
+}
+
+
+/**
+ *
+ * @param buffer
+ * @returns
+ */
+export const excelFromArrayBuffer = async (buffer: ArrayBuffer): Promise<XlsxPopulate.Workbook> => {
+  const uint8 = new Uint8Array(buffer)
+  return await XlsxPopulate.fromDataAsync(uint8)
+}
+
+
+/**
+ * ExcelデータをArrayBufferとして受け取って、各行をデータとして配列で返すメソッド。
+ * @param buffer 
+ * @param sheetName 
+ * @param formatFunc 
+ * @param formatFunc フォーマット関数。instanceは各行データが入ってくるので、任意に整形して返せばよい
+ */
+export const excelBuffer2json = async (
+  buffer: ArrayBuffer,
+  sheetName = 'Sheet1',
+  formatFunc?: (instance: CSVData) => CSVData,
+  option?: Option
+): Promise<CSVData[]> => {
+  const workbook = await excelFromArrayBuffer(buffer)
+  return excelData2json(workbook, sheetName, formatFunc, option)
 }
 
 /**
