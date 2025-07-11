@@ -544,7 +544,7 @@ export const getHeaders = (
  * @param instanceArray 
  * @returns 
  */
-export const getHeaders2 = (instanceArray: unknown[][]): string[] => instanceArray[0] as string[]
+export const getHeaders2 = (instanceArray: unknown[][]): string[] => instanceArray[0].map(cell => typeof cell === 'string' ? cell.trim() : cell) as string[]
 
 // XlsxPopulate
 export const getValuesArray = (workbook: XlsxPopulate.Workbook, sheetName: string): unknown[][] => {
