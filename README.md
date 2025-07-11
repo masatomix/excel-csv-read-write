@@ -22,6 +22,7 @@
 ## Revision history
 
 改訂履歴
+- 0.2.5 ヘッダ生成時、前後のスペースをトリムする処理を追加。
 - 0.2.4 Loggerを変更(bunyan → pino)、ArrayBufferを受け取るメソッドを追加( excelBuffer2json )、その他。
   - linter、formatter、tsconfig あたりを整理。
   - yarn から pnpm へ変更。
