@@ -1,6 +1,6 @@
 {
   "name": "excel-csv-read-write",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Excel and CSV read write utility.",
   "main": "dist/commonUtils.js",
   "types": "dist/commonUtils.d.ts",
