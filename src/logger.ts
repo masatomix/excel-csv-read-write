@@ -30,13 +30,30 @@ const defaultLoggerOptions: LoggerConfig = {
     transport: undefined,
 }
 
-// 利用者の設定
-const userLoggerConfig: LoggerConfig | object = config.has('copy-utils-generator-logger')
-    ? config.get('copy-utils-generator-logger')
-    : {}
-const loggerConfig = { ...defaultLoggerOptions, ...userLoggerConfig }
+const isBrowser = typeof window !== 'undefined'
 
-const { transport, moduleLogLevels, level: loglevel } = loggerConfig
+// 外から設定を上書きできるようにしておく
+let loggerConfig: LoggerConfig = {
+    ...defaultLoggerOptions,
+    ...(isBrowser
+        ? {} // ブラウザでは config 無効
+        : config.has('excel-csv-read-write-logger')
+          ? config.get('excel-csv-read-write-logger')
+          : {}),
+}
+
+export function setLoggerConfig(config: LoggerConfig) {
+    loggerConfig = {
+        ...defaultLoggerOptions,
+        ...config,
+    }
+
+    console.log(config)
+    // 必要なら既存ログレベルをリセットして再構築する処理も入れられる
+    for (const key of Object.keys(loggers)) {
+        delete loggers[key]
+    }
+}
 
 /**
  * モジュール名を指定して Logger を取得。
@@ -44,6 +61,7 @@ const { transport, moduleLogLevels, level: loglevel } = loggerConfig
  */
 export function getLogger(moduleName: string): Logger {
     if (!loggers[moduleName]) {
+        const { transport, moduleLogLevels, level: loglevel } = loggerConfig
         const level = moduleLogLevels[moduleName] ?? loglevel
         // console.log(`${moduleName}はなかったので${level}で作る`)
         loggers[moduleName] = pino({
