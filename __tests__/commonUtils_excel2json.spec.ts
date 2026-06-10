@@ -23,7 +23,7 @@ describe('テスト', () => {
 
   beforeEach(async () => {
 
-    fs.existsSync(tmpDir) || fs.mkdirSync(tmpDir)
+    if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir)
     csvPath = await getAndExtract(url)
     fullPath = path.join(baseDir, csvPath)
     await createExcel(fullPath, excelPath)
@@ -132,7 +132,7 @@ describe('テスト', () => {
     // !fs.existsSync(excelPath3) || fs.unlinkSync(excelPath3)
     // !fs.existsSync(excelPath4) || fs.unlinkSync(excelPath4)
     // !fs.existsSync(tmpDir) || fs.rmdirSync(tmpDir)
-    !fs.existsSync(tmpDir) || fs.rmdirSync(tmpDir, { recursive: true })
+    if (fs.existsSync(tmpDir)) fs.rmdirSync(tmpDir, { recursive: true })
 
   })
 

@@ -1,4 +1,3 @@
-import * as fs from 'fs'
 
 import { data2json, } from '../src/commonUtils'
 

@@ -8,7 +8,7 @@ import { Converters, CSVData } from './data'
 import { getLogger } from './logger'
 // const XlsxPopulate = require('xlsx-populate')
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+ 
 const logger = getLogger('main')
 
 type Option = {
@@ -493,7 +493,7 @@ const createCsvArrays = (headings: string[], instances: unknown[], converters?: 
     return csvArray
   })
 
-  headerConverter ? csvArrays.unshift(headerConverter(headings)) : csvArrays.unshift(headings)
+  csvArrays.unshift(headerConverter ? headerConverter(headings) : headings)
 
   return csvArrays
 }
@@ -532,7 +532,7 @@ export const getHeaders = (
 
     return headers
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     // return sheet.usedRange()!.value().shift() as string[]
   }
 
@@ -550,7 +550,7 @@ export const getHeaders2 = (instanceArray: unknown[][]): string[] => instanceArr
 export const getValuesArray = (workbook: XlsxPopulate.Workbook, sheetName: string): unknown[][] => {
   const sheet = workbook.sheet(sheetName)
   if (sheet.usedRange()) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     return sheet.usedRange()!.value()
   }
 
