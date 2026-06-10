@@ -44,7 +44,7 @@ describe('テスト', () => {
     // await new Promise<void>((resolve, reject) => {
     //   fs.unlink(fullPath, (error) => (error ? reject(error) : resolve()))
     // })
-    !fs.existsSync(fullPath) ?? fs.unlinkSync(fullPath)
+    if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath)
   })
 })
 

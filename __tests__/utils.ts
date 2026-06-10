@@ -12,11 +12,11 @@ export const assertBasicArray = (actualInstances: unknown[], expectedColumnCount
 
             const resultFlag = Object.keys(instance).map(tmpKey => {
                 const key = tmpKey as keyof Address
-                instance[key] ?? console.log(`${key} is undefined`)
+                if (instance[key] == null) console.log(`${key} is undefined`)
                 return instance[key]
             }).every(value => value !== undefined)
 
-            resultFlag || console.log('undefinedアリ')
+            if (!resultFlag) console.log('undefinedアリ')
             // expect(resultFlag).toBeTruthy()
 
             // const flag = Object.keys(instance).reduce((prevFlag, tmpKey) => {
