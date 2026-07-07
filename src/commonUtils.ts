@@ -86,9 +86,12 @@ export const excelStream2json = async (
   option?: Option
 ): Promise<unknown[]> => {
   // cf:https://qiita.com/masakura/items/5683e8e3e655bfda6756
-  const promise = new JSZip.external.Promise<Buffer>((resolve, _) => {
+  const promise = new JSZip.external.Promise<Buffer>((resolve, reject) => {
     const buffers: Buffer[] = []
-    stream.on('data', (data: Buffer) => buffers.push(data)).on('end', () => resolve(Buffer.concat(buffers)))
+    stream
+      .on('data', (data: Buffer) => buffers.push(data))
+      .on('end', () => resolve(Buffer.concat(buffers)))
+      .on('error', (error: Error) => reject(error)) // issue #50: ストリームエラーで reject（未処理だと uncaughtException）
   }).then(async (buf: Buffer) => await XlsxPopulate.fromDataAsync(buf))
 
   return excelData2json(await promise, sheetName, formatFunc, option)
@@ -219,6 +222,7 @@ export const csvStream2json = async (stream: NodeJS.ReadableStream, encoding = '
     const datas: unknown[] = []
 
     void stream
+      .on('error', (error: Error) => reject(error)) // issue #50 同根: ソースストリームのエラーは pipe に伝播しない
       .pipe(iconv.decodeStream(encoding))
       .pipe(iconv.encodeStream('utf-8'))
       .pipe(
